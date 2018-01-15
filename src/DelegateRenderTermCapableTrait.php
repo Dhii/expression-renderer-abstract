@@ -22,10 +22,10 @@ trait DelegateRenderTermCapableTrait
      *
      * @param TermInterface $term The term to render.
      *
-     * @return string|Stringable The rendered term.
-     *
-     * @throws RendererExceptionInterface If the renderer encountered an error.
+     * @throws RendererExceptionInterface       If the renderer encountered an error.
      * @throws TemplateRenderExceptionInterface If the renderer failed to render the term.
+     *
+     * @return string|Stringable The rendered term.
      */
     protected function _delegateRenderTerm(TermInterface $term)
     {

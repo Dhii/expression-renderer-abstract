@@ -24,9 +24,9 @@ trait ContainerGetDelegateRendererTrait
      *
      * @param string|Stringable $termType The term type for which to retrieve a renderer.
      *
-     * @return TemplateInterface The renderer instance.
-     *
      * @throws RendererExceptionInterface If the renderer encountered an error.
+     *
+     * @return TemplateInterface The renderer instance.
      */
     protected function _getTermDelegateRenderer($termType)
     {
