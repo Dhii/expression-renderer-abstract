@@ -16,7 +16,7 @@ use Psr\Container\ContainerInterface;
  *
  * @since [*next-version*]
  */
-trait RenderCapableTrait
+trait RenderExpressionTrait
 {
     /**
      * Renders the given context as an expression.

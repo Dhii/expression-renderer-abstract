@@ -4,7 +4,7 @@ namespace Dhii\Expression\Renderer\FuncTest;
 
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\ExpressionContextInterface;
-use Dhii\Expression\Renderer\RenderCapableTrait as TestSubject;
+use Dhii\Expression\Renderer\RenderExpressionTrait as TestSubject;
 use InvalidArgumentException;
 use Xpmock\TestCase;
 use Exception as RootException;
@@ -15,14 +15,14 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  *
  * @since [*next-version*]
  */
-class RenderCapableTraitTest extends TestCase
+class RenderExpressionTraitTest extends TestCase
 {
     /**
      * The class name of the test subject.
      *
      * @since [*next-version*]
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\Expression\Renderer\RenderCapableTrait';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Expression\Renderer\RenderExpressionTrait';
 
     /**
      * Creates a new instance of the test subject.
