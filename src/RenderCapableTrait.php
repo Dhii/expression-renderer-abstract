@@ -30,7 +30,7 @@ trait RenderCapableTrait
      *
      * @return string|Stringable The rendered result.
      */
-    protected function _render($context)
+    protected function _render($context = null)
     {
         if ($context === null) {
             throw $this->_createInvalidArgumentException(
