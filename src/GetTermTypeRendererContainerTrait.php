@@ -24,27 +24,14 @@ trait GetTermTypeRendererContainerTrait
      *
      * @param string|Stringable $termType The term type for which to retrieve a renderer.
      *
-     * @throws RendererExceptionInterface If the renderer encountered an error.
-     *
      * @return TemplateInterface The renderer instance.
+     *
+     * @throws ContainerExceptionInterface If an error occurred while reading from the container.
+     * @throws NotFoundExceptionInterface If no renderer was found for the given term type.
      */
     protected function _getTermTypeRenderer($termType)
     {
-        try {
-            return $this->_getTermTypeRendererContainer()->get($termType);
-        } catch (NotFoundExceptionInterface $notFoundException) {
-            throw $this->_createRendererException(
-                $this->__('Could not find a renderer for the given term'),
-                null,
-                $notFoundException
-            );
-        } catch (ContainerExceptionInterface $containerException) {
-            throw $this->_createRendererException(
-                $this->__('An error occurred while reading from the renderers container'),
-                null,
-                $containerException
-            );
-        }
+         return $this->_getTermTypeRendererContainer()->get($termType);
     }
 
     /**

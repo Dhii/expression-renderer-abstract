@@ -210,13 +210,8 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
                 ->method('_getTermTypeRendererContainer')
                 ->willReturn($container);
 
-        try {
-            $reflect->_getTermTypeRenderer($type);
-
-            $this->fail('Expected an exception - no exception was thrown.');
-        } catch (Exception $exception) {
-            $this->assertSame($nfe, $exception->getPrevious(), 'Inner exception is not the not found exception.');
-        }
+        $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
+        $reflect->_getTermTypeRenderer($type);
     }
 
     /**
@@ -241,12 +236,7 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
                 ->method('_getTermTypeRendererContainer')
                 ->willReturn($container);
 
-        try {
-            $reflect->_getTermTypeRenderer($type);
-
-            $this->fail('Expected an exception - no exception was thrown.');
-        } catch (Exception $exception) {
-            $this->assertSame($nfe, $exception->getPrevious(), 'Inner exception is not the "not-found" exception.');
-        }
+        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
+        $reflect->_getTermTypeRenderer($type);
     }
 }
