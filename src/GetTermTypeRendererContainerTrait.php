@@ -11,14 +11,14 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * Common functionality for objects that can provide a term type delegate renderer via a container.
+ * Common functionality for objects that can provide a term type renderer via a container.
  *
  * @since [*next-version*]
  */
-trait GetTermDelegateRendererContainerTrait
+trait GetTermTypeRendererContainerTrait
 {
     /**
-     * Retrieves the delegate renderer for a given term.
+     * Retrieves the renderer for a given term.
      *
      * @since [*next-version*]
      *
@@ -28,19 +28,19 @@ trait GetTermDelegateRendererContainerTrait
      *
      * @return TemplateInterface The renderer instance.
      */
-    protected function _getTermDelegateRenderer($termType)
+    protected function _getTermTypeRenderer($termType)
     {
         try {
-            return $this->_getTermDelegateRendererContainer()->get($termType);
+            return $this->_getTermTypeRendererContainer()->get($termType);
         } catch (NotFoundExceptionInterface $notFoundException) {
             throw $this->_createRendererException(
-                $this->__('Could not find a delegate renderer for the given term'),
+                $this->__('Could not find a renderer for the given term'),
                 null,
                 $notFoundException
             );
         } catch (ContainerExceptionInterface $containerException) {
             throw $this->_createRendererException(
-                $this->__('An error occurred while reading from the delegate renderers container'),
+                $this->__('An error occurred while reading from the renderers container'),
                 null,
                 $containerException
             );
@@ -48,13 +48,13 @@ trait GetTermDelegateRendererContainerTrait
     }
 
     /**
-     * Retrieves the container that contains the delegate renderers, keyed by term type.
+     * Retrieves the container that contains the renderers, keyed by term type.
      *
      * @since [*next-version*]
      *
-     * @return ContainerInterface The container that contains the delegate renderer instances, keyed by term type.
+     * @return ContainerInterface The container that contains the renderer instances, keyed by term type.
      */
-    abstract protected function _getTermDelegateRendererContainer();
+    abstract protected function _getTermTypeRendererContainer();
 
     /**
      * Creates a new invalid argument exception.

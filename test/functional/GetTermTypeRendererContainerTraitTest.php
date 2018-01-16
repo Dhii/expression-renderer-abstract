@@ -2,7 +2,7 @@
 
 namespace Dhii\Expression\Renderer\FuncTest;
 
-use Dhii\Expression\Renderer\GetTermDelegateRendererContainerTrait as TestSubject;
+use Dhii\Expression\Renderer\GetTermTypeRendererContainerTrait as TestSubject;
 use Exception;
 use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -14,14 +14,14 @@ use Xpmock\TestCase;
  *
  * @since [*next-version*]
  */
-class GetTermDelegateRendererContainerTraitTest extends TestCase
+class GetTermTypeRendererContainerTraitTest extends TestCase
 {
     /**
      * The class name of the test subject.
      *
      * @since [*next-version*]
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\Expression\Renderer\GetTermDelegateRendererContainerTrait';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Expression\Renderer\GetTermTypeRendererContainerTrait';
 
     /**
      * Creates a new instance of the test subject.
@@ -37,7 +37,7 @@ class GetTermDelegateRendererContainerTraitTest extends TestCase
         $methods = $this->mergeValues(
             $methods,
             [
-                '_getTermDelegateRendererContainer',
+                '_getTermTypeRendererContainer',
                 '_createRendererException',
                 '__',
             ]
@@ -161,12 +161,12 @@ class GetTermDelegateRendererContainerTraitTest extends TestCase
     }
 
     /**
-     * Tests the term delegate renderer method to assert whether it internally asks the container for the renderer
+     * Tests the term type renderer method to assert whether it internally asks the container for the renderer
      * instance and return the renderer retrieved from it.
      *
      * @since [*next-version*]
      */
-    public function testGetTermDelegateRenderer()
+    public function testGetTermTypeRenderer()
     {
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
@@ -180,21 +180,21 @@ class GetTermDelegateRendererContainerTraitTest extends TestCase
                   ->willReturn($renderer);
 
         $subject->expects($this->atLeastOnce())
-                ->method('_getTermDelegateRendererContainer')
+                ->method('_getTermTypeRendererContainer')
                 ->willReturn($container);
 
-        $result = $reflect->_getTermDelegateRenderer($type);
+        $result = $reflect->_getTermTypeRenderer($type);
 
         $this->assertSame($renderer, $result, 'Expected and retrieved renderer instances are not the same.');
     }
 
     /**
-     * Tests the term delegate renderer getter method to assert whether any not found exceptions thrown by the
+     * Tests the term type renderer getter method to assert whether any not found exceptions thrown by the
      * container are wrapped in renderer exceptions and thrown.
      *
      * @since [*next-version*]
      */
-    public function testGetTermDelegateRendererNotFoundException()
+    public function testGetTermTypeRendererNotFoundException()
     {
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
@@ -207,11 +207,11 @@ class GetTermDelegateRendererContainerTraitTest extends TestCase
                   ->willThrowException($nfe = $this->createNotFoundException());
 
         $subject->expects($this->atLeastOnce())
-                ->method('_getTermDelegateRendererContainer')
+                ->method('_getTermTypeRendererContainer')
                 ->willReturn($container);
 
         try {
-            $reflect->_getTermDelegateRenderer($type);
+            $reflect->_getTermTypeRenderer($type);
 
             $this->fail('Expected an exception - no exception was thrown.');
         } catch (Exception $exception) {
@@ -220,12 +220,12 @@ class GetTermDelegateRendererContainerTraitTest extends TestCase
     }
 
     /**
-     * Tests the term delegate renderer getter method to assert whether any container exceptions thrown by the
+     * Tests the term type renderer getter method to assert whether any container exceptions thrown by the
      * container are wrapped in renderer exceptions and thrown.
      *
      * @since [*next-version*]
      */
-    public function testGetTermDelegateRendererContainerException()
+    public function testGetTermTypeRendererContainerException()
     {
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
@@ -238,11 +238,11 @@ class GetTermDelegateRendererContainerTraitTest extends TestCase
                   ->willThrowException($nfe = $this->createContainerException());
 
         $subject->expects($this->atLeastOnce())
-                ->method('_getTermDelegateRendererContainer')
+                ->method('_getTermTypeRendererContainer')
                 ->willReturn($container);
 
         try {
-            $reflect->_getTermDelegateRenderer($type);
+            $reflect->_getTermTypeRenderer($type);
 
             $this->fail('Expected an exception - no exception was thrown.');
         } catch (Exception $exception) {
