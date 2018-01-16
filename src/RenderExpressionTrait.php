@@ -14,6 +14,9 @@ use Psr\Container\ContainerInterface;
 /**
  * Abstract functionality for expression renderers.
  *
+ * Provides the basic functionality for validating the render context, extracting the expression from it and passing
+ * it to the actual rendering method.
+ *
  * @since [*next-version*]
  */
 trait RenderExpressionTrait
@@ -41,7 +44,7 @@ trait RenderExpressionTrait
             );
         }
 
-        $expr   = $this->_containerGet($context, ExprCtx::K_EXPRESSION);
+        $expr = $this->_containerGet($context, ExprCtx::K_EXPRESSION);
         $result = $this->_renderExpression($expr);
 
         return $result;
