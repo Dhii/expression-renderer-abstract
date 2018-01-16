@@ -15,7 +15,7 @@ use Psr\Container\NotFoundExceptionInterface;
  *
  * @since [*next-version*]
  */
-trait ContainerGetDelegateRendererTrait
+trait GetTermDelegateRendererContainerTrait
 {
     /**
      * Retrieves the delegate renderer for a given term.
