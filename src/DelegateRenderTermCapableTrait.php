@@ -7,9 +7,10 @@ use Dhii\Output\Exception\RendererExceptionInterface;
 use Dhii\Output\Exception\TemplateRenderExceptionInterface;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use OutOfRangeException;
 
 /**
- * Common functionality for objects that can delegate expression rendering by term type.
+ * Common functionality for objects that can delegate term rendering to a renderer.
  *
  * @since [*next-version*]
  */
@@ -29,7 +30,7 @@ trait DelegateRenderTermCapableTrait
      */
     protected function _delegateRenderTerm(TermInterface $term)
     {
-        return $this->_getTermDelegateRenderer($term->getType())->render($term);
+        return $this->_getTermDelegateRenderer($term)->render($term);
     }
 
     /**
@@ -37,9 +38,11 @@ trait DelegateRenderTermCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable $termType The term type for which to retrieve a renderer.
+     * @param TermInterface $term The term type for which to retrieve a renderer.
      *
      * @return TemplateInterface The renderer instance.
+     *
+     * @throws OutOfRangeException If no renderer can be retrieved for the given term type.
      */
-    abstract protected function _getTermDelegateRenderer($termType);
+    abstract protected function _getTermDelegateRenderer(TermInterface $term);
 }
