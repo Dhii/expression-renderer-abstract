@@ -246,7 +246,7 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
 
             $this->fail('Expected an exception - no exception was thrown.');
         } catch (Exception $exception) {
-            $this->assertSame($nfe, $exception->getPrevious(), 'Inner exception is not the not found exception.');
+            $this->assertSame($nfe, $exception->getPrevious(), 'Inner exception is not the "not-found" exception.');
         }
     }
 }
