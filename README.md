@@ -9,3 +9,26 @@
 Abstract functionality for objects that can render expressions.
 
 [Dhii]: https://github.com/Dhii/dhii
+
+# Details
+
+[`RenderExpressionTrait`] provides the basic functionality for reading an expression from a render context and passing
+it on to an abstracted render method.
+
+[`RenderExpressionAndTermsCapableTrait`] provides functionality for rendering an expression's terms in sequence, then
+compiling those results into a final render.
+
+[`DelegateRenderTermCapableTrait`] provides functionality for rendering an expression or term by passing it onto a
+delegate renderer, via an abstract delegate renderer getter method.
+
+[`GetTermTypeRendererContainerTrait`] provides functionality for retrieving a renderer that corresponds to a term's type
+from a container instance.
+
+[`ExpressionContextInterface`] is used for internally consuming the expression context key. It is not meant to be
+implemented by context implementations, but CAN be since it extends `ContainerInterface`.
+
+[`RenderExpressionTrait`]: src/RenderExpressionTrait.php
+[`RenderExpressionAndTermsCapableTrait`]: src/RenderExpressionAndTermsCapableTrait.php
+[`DelegateRenderTermCapableTrait`]: src/DelegateRenderTermCapableTrait.php
+[`GetTermTypeRendererContainerTrait`]: src/GetTermTypeRendererContainerTrait.php
+[`ExpressionContextInterface`]: src/ExpressionContextInterface.php
