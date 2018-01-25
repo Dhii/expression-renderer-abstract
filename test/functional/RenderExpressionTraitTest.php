@@ -4,11 +4,10 @@ namespace Dhii\Expression\Renderer\FuncTest;
 
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\ExpressionContextInterface;
-use Dhii\Expression\Renderer\RenderExpressionTrait as TestSubject;
+use Exception;
 use InvalidArgumentException;
-use Xpmock\TestCase;
-use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Xpmock\TestCase;
 
 /**
  * Tests {@see TestSubject}.
@@ -83,6 +82,36 @@ class RenderExpressionTraitTest extends TestCase
     }
 
     /**
+     * Creates a mock that both extends a class and implements interfaces.
+     *
+     * This is particularly useful for cases where the mock is based on an
+     * internal class, such as in the case with exceptions. Helps to avoid
+     * writing hard-coded stubs.
+     *
+     * @since [*next-version*]
+     *
+     * @param string   $className      Name of the class for the mock to extend.
+     * @param string[] $interfaceNames Names of the interfaces for the mock to implement.
+     *
+     * @return MockObject The object that extends and implements the specified class and interfaces.
+     */
+    public function mockClassAndInterfaces($className, $interfaceNames = [])
+    {
+        $paddingClassName = uniqid($className);
+        $definition = vsprintf(
+            'abstract class %1$s extends %2$s implements %3$s {}',
+            [
+                $paddingClassName,
+                $className,
+                implode(', ', $interfaceNames),
+            ]
+        );
+        eval($definition);
+
+        return $this->getMockForAbstractClass($paddingClassName);
+    }
+
+    /**
      * Creates a new mock expression instance.
      *
      * @since [*next-version*]
@@ -144,5 +173,50 @@ class RenderExpressionTraitTest extends TestCase
         $actual = $reflect->_render($context);
 
         $this->assertEquals($expected, $actual, 'Expected and actual render results are not equal.');
+    }
+
+    /**
+     * Tests the render method with no context to assert whether the correct exception is thrown.
+     *
+     * @since [*next-version*]
+     */
+    public function testRenderNoContext()
+    {
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $reflect->_render();
+    }
+
+    /**
+     * Tests the render method with an invalid context to assert whether the correct exception is thrown.
+     *
+     * @since [*next-version*]
+     */
+    public function testRenderInvalidContext()
+    {
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+
+        $expression = $this->createExpression(uniqid('type-'), []);
+        $context = [ExpressionContextInterface::K_EXPRESSION => $expression];
+
+        $inner = $this->mockClassAndInterfaces('Exception', ['Psr\Container\NotFoundExceptionInterface']);
+
+        $subject->expects($this->atLeastOnce())
+                ->method('_containerGet')
+                ->with($context, $this->anything())
+                ->willThrowException($inner);
+
+        try {
+            $reflect->_render($context);
+
+            $this->fail('Expected an exception to be thrown.');
+        } catch (Exception $exception) {
+            $this->assertInstanceOf('InvalidArgumentException', $exception, 'Exception is invalid.');
+            $this->assertSame($inner, $exception->getPrevious(), 'Inner exception is invalid.');
+        }
     }
 }
