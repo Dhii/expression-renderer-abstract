@@ -28,7 +28,8 @@ from a container instance. The provided `_getTermTypeRenderer()` method can be u
 `getTermDelegateRenderer` in [`_DelegateRenderTermCapableTrait`].
 
 [`ExpressionContextInterface`] is used for internally consuming the expression context key. It is not meant to be
-implemented by context implementations, but CAN be since it extends `ContainerInterface`.
+implemented by context implementations and should therefore not be depended on. However, implementations are still free
+to implement it since it extends `ContainerInterface`.
 
 [`CompileExpressionTermsImplodeTrait`] provides the functionality for compiling rendered terms by imploding all the term
 renders using a glue. Complements [`RenderExpressionAndTermsCapableTrait`] for most expression rendering cases.
