@@ -2,7 +2,6 @@
 
 namespace Dhii\Expression\Renderer;
 
-use Dhii\Data\Container\Exception\NotFoundExceptionInterface;
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\ExpressionContextInterface as ExprCtx;
 use Dhii\Util\String\StringableInterface as Stringable;
@@ -10,6 +9,7 @@ use Exception as RootException;
 use InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Abstract functionality for expression renderers.
@@ -44,10 +44,19 @@ trait RenderExpressionTrait
             );
         }
 
-        $expr = $this->_containerGet($context, ExprCtx::K_EXPRESSION);
-        $result = $this->_renderExpression($expr);
+        try {
+            $expr = $this->_containerGet($context, ExprCtx::K_EXPRESSION);
+            $result = $this->_renderExpression($expr);
 
-        return $result;
+            return $result;
+        } catch (NotFoundExceptionInterface $notFoundException) {
+            throw $this->_createInvalidArgumentException(
+                $this->__('Context does not contain an expression'),
+                null,
+                $notFoundException,
+                $context
+            );
+        }
     }
 
     /**
