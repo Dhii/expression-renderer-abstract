@@ -38,7 +38,7 @@ class DelegateRenderTermCapableTraitTest extends TestCase
             $methods,
             [
                 '_getTermDelegateRenderer',
-                '_createRendererException',
+                '_throwRendererException',
                 '__',
             ]
         );
@@ -48,9 +48,9 @@ class DelegateRenderTermCapableTraitTest extends TestCase
                      ->getMockForTrait();
 
         $mock->method('__')->willReturnArgument(0);
-        $mock->method('_createRendererException')->willReturnCallback(
+        $mock->method('_throwRendererException')->willReturnCallback(
             function($m, $c, $p) {
-                return new Exception($m, $c, $p);
+                throw new Exception($m, $c, $p);
             }
         );
 

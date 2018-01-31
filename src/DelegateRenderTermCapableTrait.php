@@ -5,6 +5,7 @@ namespace Dhii\Expression\Renderer;
 use Dhii\Expression\TermInterface;
 use Dhii\Output\Exception\RendererExceptionInterface;
 use Dhii\Output\Exception\TemplateRenderExceptionInterface;
+use Dhii\Output\RendererInterface;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Exception as RootException;
@@ -34,7 +35,7 @@ trait DelegateRenderTermCapableTrait
         try {
             return $this->_getTermDelegateRenderer($term)->render($term);
         } catch (OutOfRangeException $outOfRangeException) {
-            throw $this->_createRendererException(
+            $this->_throwRendererException(
                 $this->__('Could not find a delegate renderer for the given term.'),
                 null,
                 $outOfRangeException
@@ -56,7 +57,7 @@ trait DelegateRenderTermCapableTrait
     abstract protected function _getTermDelegateRenderer(TermInterface $term);
 
     /**
-     * Creates a new invalid argument exception.
+     * Throws a renderer exception.
      *
      * @since [*next-version*]
      *
@@ -64,9 +65,9 @@ trait DelegateRenderTermCapableTrait
      * @param int|null               $code     The error code, if any.
      * @param RootException|null     $previous The inner exception for chaining, if any.
      *
-     * @return RendererExceptionInterface The new exception.
+     * @throws RendererExceptionInterface
      */
-    abstract protected function _createRendererException(
+    abstract protected function _throwRendererException(
         $message = null,
         $code = null,
         RootException $previous = null
