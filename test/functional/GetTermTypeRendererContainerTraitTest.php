@@ -38,7 +38,6 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
             $methods,
             [
                 '_getTermTypeRendererContainer',
-                '_createRendererException',
                 '__',
             ]
         );
@@ -48,11 +47,6 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
                      ->getMockForTrait();
 
         $mock->method('__')->willReturnArgument(0);
-        $mock->method('_createRendererException')->willReturnCallback(
-            function($m, $c, $p) {
-                return new Exception($m, $c, $p);
-            }
-        );
 
         return $mock;
     }

@@ -44,23 +44,6 @@ trait GetTermTypeRendererContainerTrait
     abstract protected function _getTermTypeRendererContainer();
 
     /**
-     * Creates a new invalid argument exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string|Stringable|null $message  The error message, if any.
-     * @param int|null               $code     The error code, if any.
-     * @param RootException|null     $previous The inner exception for chaining, if any.
-     *
-     * @return RendererExceptionInterface The new exception.
-     */
-    abstract protected function _createRendererException(
-        $message = null,
-        $code = null,
-        RootException $previous = null
-    );
-
-    /**
      * Translates a string, and replaces placeholders.
      *
      * @since [*next-version*]
