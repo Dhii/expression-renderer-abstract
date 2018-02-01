@@ -2,6 +2,7 @@
 
 namespace Dhii\Expression\Renderer;
 
+use ArrayAccess;
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\ExpressionContextInterface as ExprCtx;
 use Dhii\Util\String\StringableInterface as Stringable;
@@ -10,6 +11,7 @@ use InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use stdClass;
 
 /**
  * Abstract functionality for expression renderers.
@@ -46,7 +48,7 @@ trait RenderExpressionTrait
 
         try {
             $expr = $this->_containerGet($context, ExprCtx::K_EXPRESSION);
-            $result = $this->_renderExpression($expr);
+            $result = $this->_renderExpression($expr, $context);
 
             return $result;
         } catch (NotFoundExceptionInterface $notFoundException) {
@@ -64,11 +66,12 @@ trait RenderExpressionTrait
      *
      * @since [*next-version*]
      *
-     * @param ExpressionInterface $expression The expression instance to render.
+     * @param ExpressionInterface                                $expression The expression instance to render.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context    The context.
      *
      * @return string|Stringable The rendered expression.
      */
-    abstract protected function _renderExpression(ExpressionInterface $expression);
+    abstract protected function _renderExpression(ExpressionInterface $expression, $context = null);
 
     /**
      * Retrieves an entry from a container or data set.

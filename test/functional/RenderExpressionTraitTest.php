@@ -167,7 +167,7 @@ class RenderExpressionTraitTest extends TestCase
 
         $subject->expects($this->once())
                 ->method('_renderExpression')
-                ->with($expression)
+                ->with($expression, $context)
                 ->willReturn($expected);
 
         $actual = $reflect->_render($context);
