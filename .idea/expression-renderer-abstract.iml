@@ -64,6 +64,7 @@
           <root url="file://$MODULE_DIR$/vendor/dhii/evaluable-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/exception-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/expression-interface" />
+          <root url="file://$MODULE_DIR$/vendor/dhii/expression-renderer-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/output-renderer-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/php-cs-fixer-config" />
           <root url="file://$MODULE_DIR$/vendor/dhii/stringable-interface" />
@@ -111,6 +112,7 @@
           <root url="file://$MODULE_DIR$/vendor/dhii/evaluable-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/exception-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/expression-interface" />
+          <root url="file://$MODULE_DIR$/vendor/dhii/expression-renderer-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/output-renderer-interface" />
           <root url="file://$MODULE_DIR$/vendor/dhii/php-cs-fixer-config" />
           <root url="file://$MODULE_DIR$/vendor/dhii/stringable-interface" />

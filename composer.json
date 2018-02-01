@@ -14,6 +14,7 @@
     "require": {
         "php": "^5.4 | ^7.0",
         "dhii/expression-interface": "^0.2",
+        "dhii/expression-renderer-interface": "^0.1",
         "dhii/output-renderer-interface": "^0.2 | ^0.3"
     },
     "require-dev": {
