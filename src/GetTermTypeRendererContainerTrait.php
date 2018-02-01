@@ -2,13 +2,13 @@
 
 namespace Dhii\Expression\Renderer;
 
-use Dhii\Output\Exception\RendererExceptionInterface;
+use ArrayAccess;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
-use Exception as RootException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use stdClass;
 
 /**
  * Common functionality for objects that can provide a term type renderer via a container.
@@ -22,14 +22,15 @@ trait GetTermTypeRendererContainerTrait
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable $termType The term type for which to retrieve a renderer.
+     * @param string|Stringable                                  $termType The term type for which to retrieve a renderer.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context  The context.
      *
      * @return TemplateInterface The renderer instance.
      *
      * @throws ContainerExceptionInterface If an error occurred while reading from the container.
      * @throws NotFoundExceptionInterface If no renderer was found for the given term type.
      */
-    protected function _getTermTypeRenderer($termType)
+    protected function _getTermTypeRenderer($termType, $context = null)
     {
          return $this->_getTermTypeRendererContainer()->get($termType);
     }
