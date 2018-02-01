@@ -2,8 +2,11 @@
 
 namespace Dhii\Expression\Renderer;
 
+use ArrayAccess;
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use Psr\Container\ContainerInterface;
+use stdClass;
 
 /**
  * Common functionality for objects that can compile rendered expression terms by imploding them with a glue.
@@ -17,14 +20,15 @@ trait CompileExpressionTermsImplodeTrait
      *
      * @since [*next-version*]
      *
-     * @param ExpressionInterface   $expression    The expression instance.
-     * @param string[]|Stringable[] $renderedTerms An array of rendered terms.
+     * @param ExpressionInterface                                $expression    The expression instance.
+     * @param string[]|Stringable[]                              $renderedTerms An array of rendered terms.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context       The context.
      *
      * @return string|Stringable The rendered expression.
      */
-    protected function _compileExpressionTerms(ExpressionInterface $expression, array $renderedTerms)
+    protected function _compileExpressionTerms(ExpressionInterface $expression, array $renderedTerms, $context = null)
     {
-        $glue = $this->_getCompileExpressionTermsGlue($expression, $renderedTerms);
+        $glue = $this->_getCompileExpressionTermsGlue($expression, $renderedTerms, $context);
         $result = implode($glue, $renderedTerms);
 
         return $result;
@@ -35,10 +39,15 @@ trait CompileExpressionTermsImplodeTrait
      *
      * @since [*next-version*]
      *
-     * @param ExpressionInterface   $expression    The expression instance.
-     * @param string[]|Stringable[] $renderedTerms TAn array of rendered terms.
+     * @param ExpressionInterface                                $expression    The expression instance.
+     * @param string[]|Stringable[]                              $renderedTerms TAn array of rendered terms.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context       The context.
      *
      * @return string|Stringable The implosion glue string.
      */
-    abstract protected function _getCompileExpressionTermsGlue(ExpressionInterface $expression, array $renderedTerms);
+    abstract protected function _getCompileExpressionTermsGlue(
+        ExpressionInterface $expression,
+        array $renderedTerms,
+        $context = null
+    );
 }

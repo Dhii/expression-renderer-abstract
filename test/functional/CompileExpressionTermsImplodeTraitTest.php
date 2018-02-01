@@ -4,6 +4,7 @@ namespace Dhii\Expression\Renderer\FuncTest;
 
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\CompileExpressionTermsImplodeTrait as TestSubject;
+use Dhii\Expression\Renderer\ExpressionContextInterface;
 use Xpmock\TestCase;
 use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -110,6 +111,7 @@ class CompileExpressionTermsImplodeTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $expression = $this->createExpression(uniqid('type-'));
+        $context = [ExpressionContextInterface::K_EXPRESSION => $expression];
         $rTerms = [
             $r1 = uniqid('rendered-term-'),
             $r2 = uniqid('rendered-term-'),
@@ -120,10 +122,10 @@ class CompileExpressionTermsImplodeTraitTest extends TestCase
 
         $subject->expects($this->atLeastOnce())
                 ->method('_getCompileExpressionTermsGlue')
-                ->with($expression, $rTerms)
+                ->with($expression, $rTerms, $context)
                 ->willReturn($glue);
 
-        $actual = $reflect->_compileExpressionTerms($expression, $rTerms);
+        $actual = $reflect->_compileExpressionTerms($expression, $rTerms, $context);
 
         $this->assertEquals($expected, $actual, 'Expected and retrieved results do not match');
     }
