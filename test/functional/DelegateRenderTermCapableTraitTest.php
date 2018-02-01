@@ -4,6 +4,7 @@ namespace Dhii\Expression\Renderer\FuncTest;
 
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\DelegateRenderTermCapableTrait as TestSubject;
+use Dhii\Expression\Renderer\ExpressionContextInterface;
 use Exception;
 use OutOfRangeException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -120,15 +121,16 @@ class DelegateRenderTermCapableTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $expression = $this->createExpression(uniqid('type-'), []);
+        $ctx = [ExpressionContextInterface::K_EXPRESSION => $expression];
         $expected = uniqid('result-');
         $renderer = $this->mock('Dhii\Output\TemplateInterface')->render($expected)->new();
 
         $subject->expects($this->atLeastOnce())
                 ->method('_getTermDelegateRenderer')
-                ->with($expression)
+                ->with($expression, $ctx)
                 ->willReturn($renderer);
 
-        $actual = $reflect->_delegateRenderTerm($expression);
+        $actual = $reflect->_delegateRenderTerm($expression, $ctx);
 
         $this->assertEquals($expected, $actual, 'Expected and actual render results are not equal.');
     }
@@ -145,14 +147,15 @@ class DelegateRenderTermCapableTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $expression = $this->createExpression(uniqid('type-'), []);
+        $ctx = [ExpressionContextInterface::K_EXPRESSION => $expression];
 
         $subject->expects($this->atLeastOnce())
                 ->method('_getTermDelegateRenderer')
-                ->with($expression)
+                ->with($expression, $ctx)
                 ->willThrowException($oor = new OutOfRangeException());
 
         try {
-            $reflect->_delegateRenderTerm($expression);
+            $reflect->_delegateRenderTerm($expression, $ctx);
 
             $this->fail('Expected an exception - no exception was thrown.');
         } catch (Exception $exception) {

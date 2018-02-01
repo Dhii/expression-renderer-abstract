@@ -2,14 +2,17 @@
 
 namespace Dhii\Expression\Renderer;
 
+use ArrayAccess;
+use Dhii\Expression\Renderer\ExpressionContextInterface as ExprCtx;
 use Dhii\Expression\TermInterface;
 use Dhii\Output\Exception\RendererExceptionInterface;
 use Dhii\Output\Exception\TemplateRenderExceptionInterface;
-use Dhii\Output\RendererInterface;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Exception as RootException;
 use OutOfRangeException;
+use Psr\Container\ContainerInterface;
+use stdClass;
 
 /**
  * Common functionality for objects that can delegate term rendering to a renderer.
@@ -23,17 +26,22 @@ trait DelegateRenderTermCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param TermInterface $term The term to render.
+     * @param TermInterface                                      $term    The term to render.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context The context.
      *
      * @throws RendererExceptionInterface       If the renderer encountered an error.
      * @throws TemplateRenderExceptionInterface If the renderer failed to render the term.
      *
      * @return string|Stringable The rendered term.
      */
-    protected function _delegateRenderTerm(TermInterface $term)
+    protected function _delegateRenderTerm(TermInterface $term, $context = null)
     {
         try {
-            return $this->_getTermDelegateRenderer($term)->render($term);
+            $childCtx = $context;
+            $childCtx[ExprCtx::K_EXPRESSION] = $term;
+
+            return $this->_getTermDelegateRenderer($term, $context)
+                        ->render($childCtx);
         } catch (OutOfRangeException $outOfRangeException) {
             $this->_throwRendererException(
                 $this->__('Could not find a delegate renderer for the given term.'),
@@ -48,13 +56,14 @@ trait DelegateRenderTermCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param TermInterface $term The term type for which to retrieve a renderer.
+     * @param TermInterface                                      $term    The term type for which to retrieve a renderer.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context The context.
      *
      * @return TemplateInterface The renderer instance.
      *
      * @throws OutOfRangeException If no renderer can be retrieved for the given term type.
      */
-    abstract protected function _getTermDelegateRenderer(TermInterface $term);
+    abstract protected function _getTermDelegateRenderer(TermInterface $term, $context = null);
 
     /**
      * Throws a renderer exception.
