@@ -28,7 +28,7 @@ trait RenderExpressionTrait
      *
      * @since [*next-version*]
      *
-     * @param array|ContainerInterface|null $context The context.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context The context.
      *
      * @throws ContainerExceptionInterface If the context container encountered an error.
      * @throws NotFoundExceptionInterface  If the expression was not found in the context container.
