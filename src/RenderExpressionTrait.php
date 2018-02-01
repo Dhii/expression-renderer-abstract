@@ -78,8 +78,8 @@ trait RenderExpressionTrait
      *
      * @since [*next-version*]
      *
-     * @param array|ContainerInterface $container The container or array to retrieve from.
-     * @param string|Stringable        $key       The key of the value to retrieve.
+     * @param array|ArrayAccess|stdClass|ContainerInterface $container The container or array to retrieve from.
+     * @param string|Stringable                             $key       The key of the value to retrieve.
      *
      * @throws ContainerExceptionInterface If an error occurred while reading from the container.
      * @throws NotFoundExceptionInterface  If the key was not found in the container.
