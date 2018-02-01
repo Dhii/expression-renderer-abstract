@@ -120,6 +120,8 @@ class RenderExpressionAndTermsCapableTraitTest extends TestCase
                 $child3 = $this->createExpression(uniqid('child-')),
             ]
         );
+        $ctx = ['expression' => $expression];
+
         $renders = [
             $render1 = uniqid('rendered-'),
             $render2 = uniqid('rendered-'),
@@ -129,14 +131,14 @@ class RenderExpressionAndTermsCapableTraitTest extends TestCase
 
         $subject->expects($this->exactly(3))
                 ->method('_renderExpressionTerm')
-                ->withConsecutive([$child1], [$child2], [$child3])
+                ->withConsecutive([$child1, $ctx], [$child2, $ctx], [$child3, $ctx])
                 ->willReturnOnConsecutiveCalls($render1, $render2, $render3);
         $subject->expects($this->atLeastOnce())
                 ->method('_compileExpressionTerms')
-                ->with($expression, $renders)
+                ->with($expression, $renders, $ctx)
                 ->willReturn($expected);
 
-        $actual = $reflect->_renderExpressionAndTerms($expression);
+        $actual = $reflect->_renderExpressionAndTerms($expression, $ctx);
 
         $this->assertEquals($expected, $actual, 'Expected and actual render results are not equal.');
     }

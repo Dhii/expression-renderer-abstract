@@ -2,9 +2,12 @@
 
 namespace Dhii\Expression\Renderer;
 
+use ArrayAccess;
 use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\TermInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use Psr\Container\ContainerInterface;
+use stdClass;
 
 /**
  * Common functionality for objects that can render expressions and their terms.
@@ -22,19 +25,20 @@ trait RenderExpressionAndTermsCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param ExpressionInterface $expression The expression instance to render.
+     * @param ExpressionInterface                                $expression The expression instance to render.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context    The context.
      *
      * @return string|Stringable The rendered expression.
      */
-    protected function _renderExpressionAndTerms(ExpressionInterface $expression)
+    protected function _renderExpressionAndTerms(ExpressionInterface $expression, $context = null)
     {
         $renderedTerms = [];
 
         foreach ($expression->getTerms() as $_term) {
-            $renderedTerms[] = $this->_renderExpressionTerm($_term);
+            $renderedTerms[] = $this->_renderExpressionTerm($_term, $context);
         }
 
-        return $this->_compileExpressionTerms($expression, $renderedTerms);
+        return $this->_compileExpressionTerms($expression, $renderedTerms, $context);
     }
 
     /**
@@ -42,21 +46,27 @@ trait RenderExpressionAndTermsCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param TermInterface $term The term to render.
+     * @param TermInterface                                      $term    The term to render.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context The context.
      *
      * @return string|Stringable The rendered term.
      */
-    abstract protected function _renderExpressionTerm(TermInterface $term);
+    abstract protected function _renderExpressionTerm(TermInterface $term, $context = null);
 
     /**
      * Compiles an expression's full render result.
      *
      * @since [*next-version*]
      *
-     * @param ExpressionInterface   $expression    The expression instance.
-     * @param string[]|Stringable[] $renderedTerms An array of rendered terms.
+     * @param ExpressionInterface                                $expression    The expression instance.
+     * @param string[]|Stringable[]                              $renderedTerms An array of rendered terms.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context       The context.
      *
      * @return string|Stringable The rendered expression.
      */
-    abstract protected function _compileExpressionTerms(ExpressionInterface $expression, array $renderedTerms);
+    abstract protected function _compileExpressionTerms(
+        ExpressionInterface $expression,
+        array $renderedTerms,
+        $context = null
+    );
 }
