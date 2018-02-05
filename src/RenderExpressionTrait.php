@@ -3,8 +3,8 @@
 namespace Dhii\Expression\Renderer;
 
 use ArrayAccess;
-use Dhii\Expression\ExpressionInterface;
 use Dhii\Expression\Renderer\ExpressionContextInterface as ExprCtx;
+use Dhii\Expression\TermInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Exception as RootException;
 use InvalidArgumentException;
@@ -64,16 +64,16 @@ trait RenderExpressionTrait
     }
 
     /**
-     * Renders a given expression and its terms.
+     * Renders a given expression or term.
      *
      * @since [*next-version*]
      *
-     * @param ExpressionInterface                                $expression The expression instance to render.
+     * @param TermInterface                                      $expression The expression or term instance to render.
      * @param array|ArrayAccess|stdClass|ContainerInterface|null $context    The context.
      *
      * @return string|Stringable The rendered expression.
      */
-    abstract protected function _renderExpression(ExpressionInterface $expression, $context = null);
+    abstract protected function _renderExpression(TermInterface $expression, $context = null);
 
     /**
      * Retrieves an entry from a container or data set.
