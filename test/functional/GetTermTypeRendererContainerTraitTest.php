@@ -4,6 +4,7 @@ namespace Dhii\Expression\Renderer\FuncTest;
 
 use Dhii\Expression\Renderer\GetTermTypeRendererContainerTrait as TestSubject;
 use Exception;
+use InvalidArgumentException;
 use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use stdClass;
@@ -38,7 +39,7 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
             $methods,
             [
                 '_getTermTypeRendererContainer',
-                '__',
+                '_containerGet',
             ]
         );
 
@@ -155,8 +156,8 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
     }
 
     /**
-     * Tests the term type renderer method to assert whether it internally asks the container for the renderer
-     * instance and return the renderer retrieved from it.
+     * Tests the term type renderer method to assert whether it internally asks the container read helper method for the
+     * renderer instance and return the renderer retrieved from it.
      *
      * @since [*next-version*]
      */
@@ -169,8 +170,8 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
         $renderer = new stdClass();
         $container = $this->createContainer();
 
-        $container->method('get')
-                  ->with($type)
+        $subject->method('_containerGet')
+                  ->with($container, $type)
                   ->willReturn($renderer);
 
         $subject->expects($this->atLeastOnce())
@@ -184,7 +185,7 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
 
     /**
      * Tests the term type renderer getter method to assert whether any not found exceptions thrown by the
-     * container are wrapped in renderer exceptions and thrown.
+     * container read helper method are wrapped in renderer exceptions and thrown.
      *
      * @since [*next-version*]
      */
@@ -196,8 +197,8 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
         $type = uniqid('type-');
         $container = $this->createContainer();
 
-        $container->method('get')
-                  ->with($type)
+        $subject->method('_containerGet')
+                  ->with($container, $type)
                   ->willThrowException($nfe = $this->createNotFoundException());
 
         $subject->expects($this->atLeastOnce())
@@ -210,7 +211,7 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
 
     /**
      * Tests the term type renderer getter method to assert whether any container exceptions thrown by the
-     * container are wrapped in renderer exceptions and thrown.
+     * container read helper method are wrapped in renderer exceptions and thrown.
      *
      * @since [*next-version*]
      */
@@ -222,8 +223,8 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
         $type = uniqid('type-');
         $container = $this->createContainer();
 
-        $container->method('get')
-                  ->with($type)
+        $subject->method('_containerGet')
+                  ->with($container, $type)
                   ->willThrowException($nfe = $this->createContainerException());
 
         $subject->expects($this->atLeastOnce())
@@ -231,6 +232,32 @@ class GetTermTypeRendererContainerTraitTest extends TestCase
                 ->willReturn($container);
 
         $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
+        $reflect->_getTermTypeRenderer($type);
+    }
+
+    /**
+     * Tests the term type renderer getter method to assert whether an invalid argument exception is thrown when the
+     * the container read helper method throws an invalid argument exception.
+     *
+     * @since [*next-version*]
+     */
+    public function testGetTermTypeRendererInvalidArgumentException()
+    {
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+
+        $type = uniqid('type-');
+        $container = $this->createContainer();
+
+        $subject->method('_containerGet')
+                  ->with($container, $type)
+                  ->willThrowException(new InvalidArgumentException());
+
+        $subject->expects($this->atLeastOnce())
+                ->method('_getTermTypeRendererContainer')
+                ->willReturn($container);
+
+        $this->setExpectedException('InvalidArgumentException');
         $reflect->_getTermTypeRenderer($type);
     }
 }

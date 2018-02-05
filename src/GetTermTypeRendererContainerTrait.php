@@ -5,6 +5,7 @@ namespace Dhii\Expression\Renderer;
 use ArrayAccess;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -32,7 +33,9 @@ trait GetTermTypeRendererContainerTrait
      */
     protected function _getTermTypeRenderer($termType, $context = null)
     {
-         return $this->_getTermTypeRendererContainer()->get($termType);
+        $container = $this->_getTermTypeRendererContainer();
+
+        return $this->_containerGet($container, $termType);
     }
 
     /**
@@ -40,21 +43,24 @@ trait GetTermTypeRendererContainerTrait
      *
      * @since [*next-version*]
      *
-     * @return ContainerInterface The container that contains the renderer instances, keyed by term type.
+     * @return array|ArrayAccess|stdClass|ContainerInterface The container that contains the renderer instances, keyed
+     *                                                       by term type.
      */
     abstract protected function _getTermTypeRendererContainer();
 
     /**
-     * Translates a string, and replaces placeholders.
+     * Retrieves a value from a container or data set.
      *
      * @since [*next-version*]
-     * @see   sprintf()
      *
-     * @param string $string  The format string to translate.
-     * @param array  $args    Placeholder values to replace in the string.
-     * @param mixed  $context The context for translation.
+     * @param array|ArrayAccess|stdClass|ContainerInterface $container The container to read from.
+     * @param string|int|float|bool|Stringable              $key       The key of the value to retrieve.
      *
-     * @return string The translated string.
+     * @throws InvalidArgumentException If the container or key arguments are invalid.
+     * @throws ContainerExceptionInterface If an error occurred while reading from the container.
+     * @throws NotFoundExceptionInterface  If the key was not found in the container.
+     *
+     * @return mixed The value mapped to the given key.
      */
-    abstract protected function __($string, $args = [], $context = null);
+    abstract protected function _containerGet($container, $key);
 }
