@@ -27,9 +27,7 @@ used to complement `renderExpressionTerm()` in [`RenderExpressionAndTermsCapable
 from a container instance. The provided `_getTermTypeRenderer()` method can be used to complement
 `getTermDelegateRenderer` in [`_DelegateRenderTermCapableTrait`].
 
-[`ExpressionContextInterface`] is used for internally consuming the expression context key. It is not meant to be
-implemented by context implementations and should therefore not be depended on. However, implementations are still free
-to implement it since it extends `ContainerInterface`.
+[`OperatorStringAwareTrait`] provides awareness of an operator string via storage and retrieval methods.
 
 [`CompileExpressionTermsImplodeTrait`] provides the functionality for compiling rendered terms by imploding all the term
 renders using a glue. Complements [`RenderExpressionAndTermsCapableTrait`] for most expression rendering cases.
@@ -38,5 +36,4 @@ renders using a glue. Complements [`RenderExpressionAndTermsCapableTrait`] for m
 [`RenderExpressionAndTermsCapableTrait`]: src/RenderExpressionAndTermsCapableTrait.php
 [`DelegateRenderTermCapableTrait`]: src/DelegateRenderTermCapableTrait.php
 [`GetTermTypeRendererContainerTrait`]: src/GetTermTypeRendererContainerTrait.php
-[`ExpressionContextInterface`]: src/ExpressionContextInterface.php
-[`CompileExpressionTermsImplodeTrait`]: src/CompileExpressionTermsImplodeTrait.php
+[`OperatorStringAwareTrait`]: src/OperatorStringAwareTrait.php
